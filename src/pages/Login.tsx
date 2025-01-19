@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import AuthLayout from "@/components/auth/AuthLayout";
 import {
   Form,
@@ -16,6 +15,7 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { findUser } from "@/utils/mockUsers";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -38,18 +38,27 @@ const Login = () => {
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     setIsLoading(true);
     try {
-      // TODO: Implement actual login logic here
-      console.log("Login values:", values);
-      toast({
-        title: "Success",
-        description: "Logged in successfully",
-      });
-      navigate("/dashboard");
+      const user = findUser(values.email, values.password);
+      
+      if (user) {
+        localStorage.setItem('user', JSON.stringify(user));
+        toast({
+          title: "Success",
+          description: "Logged in successfully",
+        });
+        navigate("/dashboard");
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Invalid credentials. Try using one of these emails: student@example.com, family@example.com, provider@example.com, admin@example.com (password: password123)",
+        });
+      }
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Invalid credentials",
+        description: "An error occurred while logging in",
       });
     } finally {
       setIsLoading(false);
