@@ -5,6 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+import StudentRegistration from "./pages/registration/StudentRegistration";
+import FamilyRegistration from "./pages/registration/FamilyRegistration";
+import ProviderRegistration from "./pages/registration/ProviderRegistration";
 
 const queryClient = new QueryClient();
 
@@ -17,10 +21,10 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<div>Registration page coming soon</div>} />
-          <Route path="/register/student" element={<div>Student registration coming soon</div>} />
-          <Route path="/register/family" element={<div>Family registration coming soon</div>} />
-          <Route path="/register/provider" element={<div>Provider registration coming soon</div>} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/register/student" element={<StudentRegistration />} />
+          <Route path="/register/family" element={<FamilyRegistration />} />
+          <Route path="/register/provider" element={<ProviderRegistration />} />
           <Route path="/dashboard" element={<div>Dashboard coming soon</div>} />
           <Route path="/forgot-password" element={<div>Forgot password page coming soon</div>} />
         </Routes>
