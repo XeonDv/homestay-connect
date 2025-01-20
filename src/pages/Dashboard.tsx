@@ -66,6 +66,39 @@ const Dashboard = () => {
                   <p>To: {format(new Date(user.endDate), "PPP")}</p>
                 </>
               )}
+              {user.role === 'student' && (
+                <>
+                  <p><strong>Destination City:</strong> {user.destinationCity}</p>
+                  <p><strong>Date of Birth:</strong> {user.dateOfBirth}</p>
+                  <p><strong>Gender:</strong> {user.gender}</p>
+                  <p><strong>Phone Number:</strong> {user.phoneNumber}</p>
+                  <p><strong>Origin Language:</strong> {user.originLanguage}</p>
+                  <p><strong>Country of Residence:</strong> {user.countryOfResidence}</p>
+                  <p><strong>Accommodation Type:</strong> {user.accommodationType}</p>
+                  <p><strong>Meal Plan:</strong> {user.mealPlan}</p>
+                  
+                  <div className="mt-4">
+                    <p className="font-semibold">House Preferences:</p>
+                    <p>Accepts Smokers: {user.preferences?.acceptsSmokers ? 'Yes' : 'No'}</p>
+                    <p>Accepts Children: {user.preferences?.acceptsChildren ? 'Yes' : 'No'}</p>
+                    <p>Accepts Teenagers: {user.preferences?.acceptsTeenagers ? 'Yes' : 'No'}</p>
+                    <p>Accepts Pets: {user.preferences?.acceptsPets ? 'Yes' : 'No'}</p>
+                  </div>
+
+                  <div className="mt-4">
+                    <p className="font-semibold">Health Information:</p>
+                    <p>Requires Medication: {user.health?.requiresMedication ? 'Yes' : 'No'}</p>
+                    <p>Has Medical Condition: {user.health?.hasMentalOrPhysicalCondition ? 'Yes' : 'No'}</p>
+                    {user.health?.details && <p>Details: {user.health.details}</p>}
+                  </div>
+
+                  <div className="mt-4">
+                    <p className="font-semibold">Emergency Contact:</p>
+                    <p>Name: {user.emergencyContact?.name || 'Not provided'}</p>
+                    <p>Phone: {user.emergencyContact?.phoneNumber || 'Not provided'}</p>
+                  </div>
+                </>
+              )}
             </div>
           </CardContent>
         </Card>

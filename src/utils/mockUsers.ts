@@ -6,6 +6,30 @@ export interface User {
   role: 'student' | 'family' | 'provider' | 'admin';
   startDate?: Date | string;
   endDate?: Date | string;
+  // New student-specific fields
+  destinationCity?: string;
+  dateOfBirth?: string;
+  gender?: 'male' | 'female' | 'other';
+  phoneNumber?: string;
+  originLanguage?: string;
+  countryOfResidence?: string;
+  accommodationType?: 'single' | 'share';
+  mealPlan?: '3meals' | '2meals' | 'nomeals';
+  preferences?: {
+    acceptsSmokers: boolean;
+    acceptsChildren: boolean;
+    acceptsTeenagers: boolean;
+    acceptsPets: boolean;
+  };
+  health?: {
+    requiresMedication: boolean;
+    hasMentalOrPhysicalCondition: boolean;
+    details?: string;
+  };
+  emergencyContact?: {
+    name: string;
+    phoneNumber: string;
+  };
 }
 
 export const mockUsers: User[] = [
@@ -16,7 +40,29 @@ export const mockUsers: User[] = [
     name: 'John Student',
     role: 'student',
     startDate: '2024-09-01',
-    endDate: '2025-06-30'
+    endDate: '2025-06-30',
+    destinationCity: 'San Francisco',
+    dateOfBirth: '1995-05-15',
+    gender: 'male',
+    phoneNumber: '+1234567890',
+    originLanguage: 'Spanish',
+    countryOfResidence: 'Mexico',
+    accommodationType: 'single',
+    mealPlan: '3meals',
+    preferences: {
+      acceptsSmokers: false,
+      acceptsChildren: true,
+      acceptsTeenagers: true,
+      acceptsPets: true,
+    },
+    health: {
+      requiresMedication: false,
+      hasMentalOrPhysicalCondition: false,
+    },
+    emergencyContact: {
+      name: 'Jane Doe',
+      phoneNumber: '+0987654321',
+    }
   },
   {
     id: '2',
