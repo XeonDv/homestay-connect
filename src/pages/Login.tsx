@@ -46,7 +46,22 @@ const Login = () => {
           title: "Success",
           description: "Logged in successfully",
         });
-        navigate("/dashboard");
+
+        // Redirect based on user role
+        switch (user.role) {
+          case 'admin':
+            navigate("/admin");
+            break;
+          case 'provider':
+            navigate("/provider");
+            break;
+          case 'student':
+          case 'family':
+            navigate("/dashboard");
+            break;
+          default:
+            navigate("/dashboard");
+        }
       } else {
         toast({
           variant: "destructive",
