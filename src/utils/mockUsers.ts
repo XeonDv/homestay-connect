@@ -4,6 +4,8 @@ export interface User {
   password: string;
   name: string;
   role: 'student' | 'family' | 'provider' | 'admin';
+  startDate?: Date | string;
+  endDate?: Date | string;
 }
 
 export const mockUsers: User[] = [
@@ -12,7 +14,9 @@ export const mockUsers: User[] = [
     email: 'student@example.com',
     password: 'password123',
     name: 'John Student',
-    role: 'student'
+    role: 'student',
+    startDate: '2024-09-01',
+    endDate: '2025-06-30'
   },
   {
     id: '2',
