@@ -55,7 +55,15 @@ const App = () => {
               element={isProvider ? <StudentDetails /> : <Navigate to="/login" />} 
             />
             <Route 
+              path="/provider/student/edit/:id" 
+              element={isProvider ? <StudentDetails /> : <Navigate to="/login" />} 
+            />
+            <Route 
               path="/provider/family/:id" 
+              element={isProvider ? <FamilyDetails /> : <Navigate to="/login" />} 
+            />
+            <Route 
+              path="/provider/family/edit/:id" 
               element={isProvider ? <FamilyDetails /> : <Navigate to="/login" />} 
             />
             <Route 

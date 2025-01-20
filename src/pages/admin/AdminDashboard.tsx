@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -13,13 +14,15 @@ import { mockUsers } from "@/utils/mockUsers";
 
 const AdminDashboard = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [providers] = useState(mockUsers.filter(user => user.role === 'provider'));
 
-  const handleCreateProvider = () => {
-    // In a real app, this would navigate to the provider creation form
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
     toast({
-      title: "Provider Creation",
-      description: "Navigate to provider registration form",
+      title: "Logged out",
+      description: "You have been successfully logged out",
     });
   };
 
@@ -27,7 +30,10 @@ const AdminDashboard = () => {
     <div className="container mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <Button onClick={handleCreateProvider}>Create New Provider</Button>
+        <div className="space-x-4">
+          <Button onClick={() => navigate('/register/provider')}>Create New Provider</Button>
+          <Button variant="outline" onClick={handleLogout}>Log Out</Button>
+        </div>
       </div>
 
       <div className="bg-white rounded-lg shadow">
