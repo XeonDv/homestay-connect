@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { mockUsers } from "@/utils/mockUsers";
+import { format } from "date-fns";
 
 const MatchingPage = () => {
   const { toast } = useToast();
@@ -21,6 +22,7 @@ const MatchingPage = () => {
 
   const handleMatch = () => {
     if (selectedStudent && selectedFamily) {
+      // Here you would typically make an API call to create the match
       toast({
         title: "Match Created",
         description: "Student and family have been successfully matched!",
@@ -41,7 +43,7 @@ const MatchingPage = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
+                <TableHead>Stay Period</TableHead>
                 <TableHead>Select</TableHead>
               </TableRow>
             </TableHeader>
@@ -52,7 +54,16 @@ const MatchingPage = () => {
                   className={selectedStudent === student.id ? "bg-blue-50" : ""}
                 >
                   <TableCell>{student.name}</TableCell>
-                  <TableCell>{student.email}</TableCell>
+                  <TableCell>
+                    {student.startDate && student.endDate ? (
+                      <div className="text-sm">
+                        <div>{format(new Date(student.startDate), "PP")}</div>
+                        <div>{format(new Date(student.endDate), "PP")}</div>
+                      </div>
+                    ) : (
+                      "No dates specified"
+                    )}
+                  </TableCell>
                   <TableCell>
                     <Button 
                       variant={selectedStudent === student.id ? "default" : "outline"}

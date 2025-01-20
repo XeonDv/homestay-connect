@@ -4,8 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import RegistrationLayout from "@/components/auth/RegistrationLayout";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -21,9 +25,14 @@ const studentSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   confirmPassword: z.string(),
+  startDate: z.date(),
+  endDate: z.date(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
+}).refine((data) => data.startDate < data.endDate, {
+  message: "End date must be after start date",
+  path: ["endDate"],
 });
 
 const StudentRegistration = () => {
@@ -37,13 +46,24 @@ const StudentRegistration = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      startDate: new Date(),
+      endDate: new Date(),
     },
   });
 
   const onSubmit = async (values: z.infer<typeof studentSchema>) => {
     try {
-      // TODO: Implement actual registration logic here
-      console.log("Registration values:", values);
+      // Mock registration - replace with actual API call
+      const user = {
+        id: Math.random().toString(36).substr(2, 9),
+        name: `${values.firstName} ${values.lastName}`,
+        email: values.email,
+        role: 'student',
+        startDate: values.startDate,
+        endDate: values.endDate,
+      };
+      localStorage.setItem('user', JSON.stringify(user));
+      
       toast({
         title: "Success",
         description: "Registration successful! Please check your email to verify your account.",
@@ -102,6 +122,82 @@ const StudentRegistration = () => {
                 <FormControl>
                   <Input placeholder="john.doe@example.com" type="email" {...field} />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="startDate"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Start Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) =>
+                        date < new Date()
+                      }
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="endDate"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>End Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) =>
+                        date < form.getValues("startDate")
+                      }
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
                 <FormMessage />
               </FormItem>
             )}
