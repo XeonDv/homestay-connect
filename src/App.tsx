@@ -12,6 +12,7 @@ import FamilyRegistration from "./pages/registration/FamilyRegistration";
 import ProviderRegistration from "./pages/registration/ProviderRegistration";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProviderDashboard from "./pages/provider/ProviderDashboard";
+import ProviderLanding from "./pages/provider/ProviderLanding";
 import StudentDetails from "./pages/provider/StudentDetails";
 import FamilyDetails from "./pages/provider/FamilyDetails";
 import MatchingPage from "./pages/provider/MatchingPage";
@@ -33,6 +34,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/provider/:providerId" element={<ProviderLanding />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register/student" element={<StudentRegistration />} />
